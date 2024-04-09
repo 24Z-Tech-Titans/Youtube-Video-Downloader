@@ -5,18 +5,25 @@ from pytube import YouTube
 class App:
     def __init__(self):
         self.root = Tk()
-        self.root.geometry("700x500")
-        self.root.title("Youtube Video Downloader")
-        self.label = ttk.Label(self.root, text="Youtube Video Downloader", font="Arial 30")
-        self.frame = ttk.Frame(self.root)
-        self.frame.grid(column=0, row=1)
-        self.linklabel = ttk.Label(self.frame, text="Youtube Link:", font= "Arial 15")
-        self.entry = ttk.Entry(self.frame, font="Arial 15", width=40)
-        self.button = ttk.Button(self.frame, text="Download", width=20, command=self.download_yt_video)
-        self.label.grid(pady=(150, 50), padx=150, column=0, row=0)
-        self.linklabel.grid(pady=20, padx=0, column=0, row=1)
-        self.entry.grid(pady=20, padx=0, column=1, row=1)
-        self.button.grid(pady=20, padx=0, column=0, row=2)
+        self.label = Label(self.root, text="Youtube Downloader", font="Arial 40",foreground= "black")
+        self.label.pack(pady=("250p", "5p"))
+        
+        self.entry = Entry(self.root,width=90,bd="2",relief="solid")
+        self.entry.pack(pady=("10p", "5p"),ipady=("5p"))
+        
+        self.button = Button(self.root,text="Download",foreground="white",background="green",font="20",border="3",command=self.download_yt_video)
+        self.button.pack(pady=("10p"),ipadx=("50p"),ipady=("5p"))
+        
+        self.resolutions = ["720px", "360px", "240px"]
+        self.resolution_var = StringVar
+        self.resolution_combobox = ttk.Combobox(values=self.resolutions,textvariable=self.resolution_var)
+        self.resolution_combobox.pack(pady=("10p","5p"))
+        self.resolution_combobox.set("720px")
+        
+        self.progress_label = Label(text="0%")
+        
+        self.status_label = Label(text="Downloaded")
+        
            
     def download_yt_video(self):
         self.url = self.entry.get()
