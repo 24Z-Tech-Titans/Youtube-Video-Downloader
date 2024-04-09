@@ -1,6 +1,7 @@
 from tkinter import *
 import tkinter.ttk as ttk
 from pytube import YouTube
+from tkinter import filedialog as fd
 
 class App:
     def __init__(self):
@@ -29,7 +30,10 @@ class App:
         self.url = self.entry.get()
         yt = YouTube(self.url)
         stream = yt.streams.get_highest_resolution()
-        stream.download()
+        destination_folder = fd.askdirectory()
+        
+        if destination_folder:
+            stream.download(destination_folder)
         
     def run(self):
         self.root.mainloop()
