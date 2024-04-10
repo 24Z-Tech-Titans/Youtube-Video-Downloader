@@ -2,8 +2,6 @@ from tkinter import *
 from customtkinter import *
 from tkinter import filedialog as fd
 from pytube import YouTube
-from PIL import Image, ImageTk
-import requests
 
 class App:
     def __init__(self):
@@ -40,6 +38,7 @@ class App:
             self.err_label = CTkLabel(self.root, text="Enter a valid URL")
             self.err_label.pack()
             
+
     def run(self):
         self.root.mainloop()
         
