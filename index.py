@@ -1,36 +1,45 @@
 from tkinter import *
-import tkinter.ttk as ttk
+from customtkinter import *
+from tkinter import filedialog as fd
 from pytube import YouTube
+from PIL import Image, ImageTk
+import requests
 
 class App:
     def __init__(self):
-        self.root = Tk()
-        self.label = Label(self.root, text="Youtube Downloader", font="Arial 40",foreground= "black")
-        self.label.pack(pady=("250p", "5p"))
+        self.root = CTk()
+        self.root.geometry("700x700")
+        self.root.title("Youtube Video Downloader")
+        self.label = CTkLabel(self.root, text="Youtube Downloader", font=("Arial", 30), pady=90)
+        self.label.pack()
         
-        self.entry = Entry(self.root,width=90,bd="2",relief="solid")
-        self.entry.pack(pady=("10p", "5p"),ipady=("5p"))
+        self.entry = CTkEntry(self.root, width=400, height=30, placeholder_text="Enter a URL")
+        self.entry.pack()
         
-        self.button = Button(self.root,text="Download",foreground="white",background="green",font="20",border="3",command=self.download_yt_video)
-        self.button.pack(pady=("10p"),ipadx=("50p"),ipady=("5p"))
+        self.button = CTkButton(self.root, text="Download", command=self.download_yt_video)
+        self.button.pack()
         
-        self.resolutions = ["720px", "360px", "240px"]
-        self.resolution_var = StringVar
-        self.resolution_combobox = ttk.Combobox(values=self.resolutions,textvariable=self.resolution_var)
-        self.resolution_combobox.pack(pady=("10p","5p"))
-        self.resolution_combobox.set("720px")
+        # self.progress_label = CTkLabel(text="0%")
         
-        self.progress_label = Label(text="0%")
+        # self.status_label = CTkLabel(text="Downloaded")
         
-        self.status_label = Label(text="Downloaded")
+    def browse_location(self):
+        # Work on the browsing location here with a browse button and the file dialog.
+        pass
         
-           
+    
     def download_yt_video(self):
-        self.url = self.entry.get()
-        yt = YouTube(self.url)
-        stream = yt.streams.get_highest_resolution()
-        stream.download()
-        
+        try:
+            self.url = self.entry.get()
+            self.yt = YouTube(self.url)
+            stream = self.yt.streams.get_highest_resolution()
+            destination_folder = fd.askdirectory()
+            if destination_folder:
+                stream.download(destination_folder)
+        except Exception as e:
+            self.err_label = CTkLabel(self.root, text="Enter a valid URL")
+            self.err_label.pack()
+            
     def run(self):
         self.root.mainloop()
         
